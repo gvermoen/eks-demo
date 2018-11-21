@@ -4,7 +4,7 @@ pipeline {
     }
     environment {
       ORG               = 'gvermoen'
-      APP_NAME          = 'eks-demo'
+      APP_NAME          = 'demo'
       CHARTMUSEUM_CREDS = credentials('jenkins-x-chartmuseum')
     }
     stages {
@@ -50,7 +50,7 @@ pipeline {
             sh "echo \$(jx-release-version) > VERSION"
             sh "mvn versions:set -DnewVersion=\$(cat VERSION)"
           }
-          dir ('./charts/eks-demo') {
+          dir ('./charts/demo') {
             container('maven') {
               sh "make tag"
             }
@@ -70,7 +70,7 @@ pipeline {
           branch 'master'
         }
         steps {
-          dir ('./charts/eks-demo') {
+          dir ('./charts/demo') {
             container('maven') {
               sh 'jx step changelog --version v\$(cat ../../VERSION)'
 
